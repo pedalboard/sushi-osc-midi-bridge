@@ -1,0 +1,3 @@
+[submodule "sushi-grpc-api"]
+	path = sushi-grpc-api
+	url = https://github.com/elk-audio/sushi-grpc-api.git
