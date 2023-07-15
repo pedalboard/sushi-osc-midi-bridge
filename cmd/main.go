@@ -11,7 +11,7 @@ import (
 func main() {
 	defer midi.CloseDriver()
 
-	in, err := midi.FindInPort("MidiKeys")
+	in, err := midi.FindInPort("pedalboard-midi")
 	if err != nil {
 		fmt.Println("can't find port")
 		return
