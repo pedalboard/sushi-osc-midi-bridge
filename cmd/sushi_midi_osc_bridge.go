@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
 
 	"gitlab.com/gomidi/midi/v2"
 	_ "gitlab.com/gomidi/midi/v2/drivers/rtmididrv" // autoregisters driver
@@ -17,7 +18,7 @@ func main() {
 		return
 	}
 
-	_, err = midi.ListenTo(in, func(msg midi.Message, timestampms int32) {
+	stop, err := midi.ListenTo(in, func(msg midi.Message, timestampms int32) {
 		var ch, ctrl, vel uint8
 		switch {
 		case msg.GetControlChange(&ch, &ctrl, &vel):
@@ -31,6 +32,13 @@ func main() {
 		fmt.Printf("ERROR: %s\n", err)
 		return
 	}
+	sigchan := make(chan os.Signal, 10)
 
+	// listen for ctrl+c
+	go signal.Notify(sigchan, os.Interrupt)
+
+	// interrupt has happend
+	<-sigchan
+	stop()
 	os.Exit(0)
 }
