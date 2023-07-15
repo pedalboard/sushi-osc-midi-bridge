@@ -26,6 +26,21 @@ install-go: ## install go
 	sudo tar -C /usr/local -xzf /tmp/go.tar.gz
 	rm /tmp/go.tar.gz
 
+install: ## install the services into the local system
+	$(MAKE) disable-ro
+	sudo cp sushi-osc-midi-bridge.service /lib/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable sushi-osc-midi-bridge
+	$(MAKE) enable-ro
+
+enable-ro: ## enable overlay fs
+	sudo elk_system_utils --remount-as-ro
+
+
+disable-ro: ## enable overlay fs
+	sudo elk_system_utils  --remount-as-rw
+
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
