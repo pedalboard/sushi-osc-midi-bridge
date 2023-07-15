@@ -18,7 +18,7 @@ const midi_port = "pedalboard-midi"
 
 func main() {
 	ctx := context.Background()
-	conn, err := grpc.Dial("pedalboard-dev:51051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("localhost:51051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to dail sushi grpc port: %v", err)
 	}
@@ -44,7 +44,7 @@ func main() {
 		case msg.GetControlChange(&ch, &ctrl, &value):
 			if ch == 2 && ctrl < 10 {
 				bypassed := value < 64
-				sushi.SetProcessorBypassState(ctx, int32(ch), bypassed)
+				_ = sushi.SetProcessorBypassState(ctx, int32(ch), bypassed)
 			}
 
 		default:
