@@ -5,9 +5,9 @@
 generate:
 	protoc \
 		--proto_path=sushi-grpc-api \
-		--go_out=internal/sushi_rpc \
-		--go_opt=paths=source_relative \
-		--go_opt=Msushi_rpc.proto=github.com/pedalboard/somb/internal/sushi_rpc \
+		--go-grpc_out=internal/sushi_rpc \
+		--go-grpc_opt=paths=source_relative \
+		--go-grpc_opt=Msushi_rpc.proto=github.com/pedalboard/somb/internal/sushi_rpc \
 		sushi_rpc.proto
 
 build: ## build
