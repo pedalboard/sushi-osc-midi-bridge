@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"os"
 
 	"gitlab.com/gomidi/midi/v2"
 	_ "gitlab.com/gomidi/midi/v2/drivers/rtmididrv" // autoregisters driver
@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	stop, err := midi.ListenTo(in, func(msg midi.Message, timestampms int32) {
+	_, err = midi.ListenTo(in, func(msg midi.Message, timestampms int32) {
 		var ch, ctrl, vel uint8
 		switch {
 		case msg.GetControlChange(&ch, &ctrl, &vel):
@@ -25,14 +25,12 @@ func main() {
 		default:
 			// ignore
 		}
-	}, midi.UseSysEx())
+	})
 
 	if err != nil {
 		fmt.Printf("ERROR: %s\n", err)
 		return
 	}
 
-	time.Sleep(time.Second * 5)
-
-	stop()
+	os.Exit(0)
 }
