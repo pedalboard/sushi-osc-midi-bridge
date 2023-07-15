@@ -9,7 +9,7 @@ LimitRTPRIO=infinity
 LimitMEMLOCK=infinity
 LimitSTACK=infinity
 WorkingDirectory=/udata/
-ExecStart=/bin/sleep 5
+ExecStartPre=/bin/sleep 5
 ExecStart=/udata/sushi-osc-midi-bridge/bin/sushi-midi-osc-bridge
 User=mind
 
