@@ -40,6 +40,8 @@ enable-ro: ## enable overlay fs
 disable-ro: ## enable overlay fs
 	sudo elk_system_utils  --remount-as-rw
 
+status: ## show the service status
+	systemctl status sushi-osc-midi-bridge
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
