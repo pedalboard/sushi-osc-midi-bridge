@@ -43,6 +43,12 @@ disable-ro: ## enable overlay fs
 status: ## show the service status
 	systemctl status sushi-osc-midi-bridge
 
+stop: ## stop the services
+	sudo systemctl stop sushi-osc-midi-bridge
+
+start: ## start the services
+	sudo systemctl start sushi-osc-midi-bridge
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
