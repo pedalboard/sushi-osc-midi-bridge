@@ -42,6 +42,7 @@ func main() {
 		var ch, ctrl, value uint8
 		switch {
 		case msg.GetControlChange(&ch, &ctrl, &value):
+			fmt.Printf("starting control change %v on channel %v with value %v\n", ctrl, ch, value)
 			if ch == 2 && ctrl < 10 {
 				bypassed := value < 64
 				_ = sushi.SetProcessorBypassState(ctx, int32(ch), bypassed)
