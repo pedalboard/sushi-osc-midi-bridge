@@ -26,7 +26,7 @@ install-go: ## install go
 	sudo tar -C /usr/local -xzf /tmp/go.tar.gz
 	rm /tmp/go.tar.gz
 
-install: ## install the services into the local system
+install: build ## install the services into the local system
 	$(MAKE) disable-ro
 	sudo cp sushi-osc-midi-bridge.service /lib/systemd/system/
 	sudo systemctl daemon-reload
