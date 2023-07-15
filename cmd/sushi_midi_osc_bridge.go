@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -14,26 +15,39 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-const midi_port = "pedalboard-midi"
+const default_midi_port = "pedalboard-midi"
+const default_sushi_host_port = "localhost:51051"
+const default_channel = 2
 
 func main() {
+
+	var midi_port = flag.String("p", default_midi_port, "midi port")
+	var sushi_host_port = flag.String("s", default_midi_port, "sushi host:port")
+	var midi_channel = flag.Int("c", default_channel, "midi channel")
+	var help = flag.Bool("h", false, "help")
+
+	flag.Parse()
+
+	if *help {
+		flag.PrintDefaults()
+		return
+	}
+
 	ctx := context.Background()
-	conn, err := grpc.Dial("localhost:51051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	cc, err := grpc.Dial(*sushi_host_port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to dail sushi grpc port: %v", err)
 	}
-	defer conn.Close()
+	defer cc.Close()
 
-	sushi := sushi.NewSushi(conn)
-
+	sushi := sushi.NewSushi(cc)
 	err = sushi.CheckConnection(ctx)
 	if err != nil {
 		log.Fatalf("failed to connect to sushi: %v", err)
 	}
 
 	defer midi.CloseDriver()
-
-	in, err := midi.FindInPort(midi_port)
+	in, err := midi.FindInPort(*midi_port)
 	if err != nil {
 		log.Fatalf("failed opening midi port: %v", err)
 	}
@@ -42,7 +56,7 @@ func main() {
 		var ch, ctrl, value uint8
 		switch {
 		case msg.GetControlChange(&ch, &ctrl, &value):
-			if ch == 2 && ctrl < 10 {
+			if ch == uint8(*midi_channel) && ctrl < 10 {
 				bypassed := value < 64
 				_ = sushi.SetProcessorBypassState(ctx, int32(ctrl), bypassed)
 			}
