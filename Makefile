@@ -2,6 +2,14 @@
 
 .DEFAULT_GOAL := help
 
+generate:
+	protoc \
+		--proto_path=sushi-grpc-api \
+		--go_out=internal/sushi_rpc \
+		--go_opt=paths=source_relative \
+		--go_opt=Msushi_rpc.proto=github.com/pedalboard/somb/internal/sushi_rpc \
+		sushi_rpc.proto
+
 build: ## build
 	mkdir -p bin
 	go build -o bin/sushi-midi-osc-bridge cmd/sushi_midi_osc_bridge.go
