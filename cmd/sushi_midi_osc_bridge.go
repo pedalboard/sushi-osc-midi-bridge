@@ -44,7 +44,7 @@ func main() {
 		case msg.GetControlChange(&ch, &ctrl, &value):
 			if ch == 2 && ctrl < 10 {
 				bypassed := value < 64
-				_ = sushi.SetProcessorBypassState(ctx, int32(ch), bypassed)
+				_ = sushi.SetProcessorBypassState(ctx, int32(ctrl), bypassed)
 			}
 
 		default:
