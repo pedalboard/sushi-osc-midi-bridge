@@ -54,6 +54,8 @@ release:
 
 install-latest:
 	curl -L https://github.com/pedalboard/sushi-osc-midi-bridge/releases/latest/download/sushi-midi-osc-bridge -o bin/sushi-midi-osc-bridge
+	chmod +x bin/sushi-midi-osc-bridge
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
