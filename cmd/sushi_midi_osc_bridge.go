@@ -22,7 +22,7 @@ const default_channel = 2
 func main() {
 
 	var midi_port = flag.String("p", default_midi_port, "midi port")
-	var sushi_host_port = flag.String("s", default_midi_port, "sushi host:port")
+	var sushi_host_port = flag.String("s", default_sushi_host_port, "sushi host:port")
 	var midi_channel = flag.Int("c", default_channel, "midi channel")
 	var help = flag.Bool("h", false, "help")
 
