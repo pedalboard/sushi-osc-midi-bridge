@@ -49,6 +49,9 @@ stop: ## stop the services
 start: ## start the services
 	sudo systemctl start sushi-osc-midi-bridge
 
+release:
+	gh release create --latest --generate-notes ./bin/sushi-midi-osc-bridge
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
