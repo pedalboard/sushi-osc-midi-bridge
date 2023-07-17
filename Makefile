@@ -38,16 +38,18 @@ enable-ro: ## enable overlay fs
 
 
 disable-ro: ## enable overlay fs
-	sudo elk_system_utils  --remount-as-rw
+	sudo elk_system_utils --remount-as-rw
 
 status: ## show the service status
 	systemctl status sushi-osc-midi-bridge
 
-stop: ## stop the services
+stop: ## stop the service
 	sudo systemctl stop sushi-osc-midi-bridge
 
-start: ## start the services
+start: ## start the service
 	sudo systemctl start sushi-osc-midi-bridge
+
+restart: stop start ## restart the service
 
 release:
 	gh release create --latest --generate-notes $$(git describe --tags --abbrev=0) ./bin/sushi-midi-osc-bridge
